@@ -1,0 +1,953 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Varian dark: mengikuti class .dark di <html>, bukan setelan OS. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================
+   1. TAILWIND THEME CONFIGURATION
+   ========================================= */
+@theme inline {
+  /* --- A. TYPOGRAPHY (ARDEN DEFAULT) --- */
+
+  /* Default UI & readable body text */
+  --font-sans: var(--font-geist);
+
+  /* Small text, metadata, data & technical information */
+  --font-ar-inter: var(--font-inter);
+
+  /* Futuristic titles, headlines & cinematic statements */
+  --font-ar-space: var(--font-space);
+
+  /* Branding, tagline & strong visual emphasis */
+  --font-ar-montserrat: var(--font-montserrat);
+
+  /* Friendly descriptions, helper text & user-facing messages */
+  --font-ar-jakarta: var(--font-jakarta);
+
+  /* Teks mikro (label grup, subtitle, badge). Memakai rem agar ikut
+     pengaturan ukuran font browser. Setara 10px pada ukuran default 16px. */
+  --text-2xs: 0.625rem;
+
+  /* --- B. AUTH LAYOUT (NVG STRUCTURE) --- */
+  --color-auth-bg: var(--auth-bg);
+  --color-auth-card: var(--auth-card);
+  --color-auth-border: var(--auth-border);
+  --color-auth-title: var(--auth-title);
+  --color-auth-desc: var(--auth-desc);
+  --color-auth-accent: var(--auth-accent);
+
+  /* --- C. DASHBOARD BASE (SHADCN STANDARD) --- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* --- D. SYSTEM STATUS (NVG ADDITIONS) --- */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* --- E. SIDEBAR (NVG STRUCTURE) --- */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* --- F. MOBILE APP (ARDEN SPECIFIC) --- */
+  --color-mobile-bg: var(--mobile-bg);
+  --color-mobile-card: var(--mobile-card);
+  --color-mobile-surface: var(--mobile-surface);
+  --color-mobile-border: var(--mobile-border);
+  --color-mobile-muted: var(--mobile-muted);
+
+  /* --- G. MENSTRUAL CYCLE QUALITY (ARDEN SPECIFIC) --- */
+  --color-minimal: var(--minimal);
+  --color-standard: var(--standard);
+  --color-maximal: var(--maximal);
+  --color-over: var(--over);
+  --color-sholat: var(--sholat);
+
+  /* --- H. CHARTS --- */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* --- I. SHAPE & EFFECTS (NVG STRUCTURE) --- */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /* --- J. LANDING --- */
+
+  --color-landing-bg: var(--landing-bg);
+  --color-landing-fg: var(--landing-fg);
+
+  --color-landing-muted: var(--landing-muted);
+  --color-landing-subtle: var(--landing-subtle);
+
+  --color-landing-surface: var(--landing-surface);
+  --color-landing-surface-hover: var(--landing-surface-hover);
+
+  --color-landing-border: var(--landing-border);
+  --color-landing-border-hover: var(--landing-border-hover);
+
+  --color-landing-primary: var(--landing-primary);
+  --color-landing-primary-hover: var(--landing-primary-hover);
+  --color-landing-primary-foreground: var(--landing-primary-foreground);
+
+  --color-landing-accent: var(--landing-accent);
+  --color-landing-accent-soft: var(--landing-accent-soft);
+
+  --color-landing-grid: var(--landing-grid);
+  --color-landing-glow: var(--landing-glow);
+
+  /* --- EASING CUSTOM (Wajib untuk Nav-Role & Nav-User) --- */
+  --transition-timing-function-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-timing-function-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-timing-function-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-timing-function-bouncy: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  /* --- ATMOSPHERE SHADOWS --- */
+
+  --glow-primary: var(--landing-primary);
+  --glow-accent: var(--landing-accent);
+
+  --shadow-glow-primary-soft: 0 0 15px
+    color-mix(in oklab, var(--glow-primary) 30%, transparent);
+
+  --shadow-glow-primary:
+    0 0 8px var(--glow-primary),
+    0 0 24px color-mix(in oklab, var(--glow-primary) 60%, transparent);
+
+  --shadow-glow-accent:
+    0 0 8px var(--glow-accent),
+    0 0 24px color-mix(in oklab, var(--glow-accent) 60%, transparent);
+
+  /* --- ANIMASI CUSTOM --- */
+
+  /* Meteor */
+  --animate-meteor: meteor 5s linear infinite;
+  @keyframes meteor {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-500px);
+      opacity: 0;
+    }
+  }
+
+  /* Float */
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Marquee */
+  --animate-marquee: marquee var(--marquee-duration) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(calc(-1 * var(--marquee-distance)), 0, 0);
+    }
+  }
+
+  /* Vertical tetap seperti sebelumnya */
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+
+  /* Fade In Down */
+  --animate-fade-in-down: fade-in-down 0.5s ease-out;
+  @keyframes fade-in-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Pulse Slow */
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  /* Deep Breath (Smooth Organic Pulse) */
+  --animate-deep-breath: deep-breath 4s ease-in-out infinite;
+  @keyframes deep-breath {
+    0%,
+    100% {
+      opacity: 0.2;
+      box-shadow: none;
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 10px var(--auth-accent);
+    }
+  }
+
+  /* Twinkle (Footer Stars) */
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.2;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  /* Beacon Flash (Data Transmission) */
+  --animate-beacon-flash: beacon-flash 2.5s ease-in-out infinite;
+  @keyframes beacon-flash {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+      box-shadow: none;
+    }
+    10% {
+      opacity: 1;
+      transform: scale(1.5);
+      box-shadow: 0 0 10px var(--auth-accent);
+    }
+    20% {
+      opacity: 0.4;
+      transform: scale(1);
+      box-shadow: none;
+    }
+    30% {
+      opacity: 1;
+      transform: scale(1.5);
+      box-shadow: 0 0 10px var(--auth-accent);
+    }
+    40%,
+    90% {
+      opacity: 0.4;
+      transform: scale(1);
+      box-shadow: none;
+    }
+  }
+
+  /* Floating Diamond Animations */
+  --animate-diamond-1: diamond-1 4s ease-in-out infinite;
+  --animate-diamond-2: diamond-2 6s ease-in-out infinite;
+  --animate-diamond-3: diamond-3 8s ease-in-out infinite;
+
+  @keyframes diamond-1 {
+    /* 0%: Lahir dari bawah dalam keadaan tidak terlihat (gaib) */
+    0% {
+      transform: translateY(15px) rotate(45deg) scale(0.2);
+      opacity: 0;
+    }
+    /* 50%: Bersinar terang dan membesar saat di tengah perjalanan */
+    50% {
+      transform: translateY(-20px) rotate(45deg) scale(1.2);
+      opacity: 0.9;
+    }
+    /* 100%: Menghilang sempurna sebelum mengulang lagi ke bawah */
+    100% {
+      transform: translateY(-60px) rotate(45deg) scale(0.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes diamond-2 {
+    0% {
+      transform: translateY(20px) rotate(45deg) scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(-30px) rotate(45deg) scale(1.1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-80px) rotate(45deg) scale(0.3);
+      opacity: 0;
+    }
+  }
+
+  @keyframes diamond-3 {
+    0% {
+      transform: translateY(10px) rotate(45deg) scale(0.4);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(-15px) rotate(45deg) scale(1.3);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-40px) rotate(45deg) scale(0.4);
+      opacity: 0;
+    }
+  }
+
+  /* Toast Progress Bar (Kilat Bawah) */
+  --animate-toast-progress: toast-progress 4s linear forwards;
+  @keyframes toast-progress {
+    0% {
+      width: 0%;
+      opacity: 1;
+    }
+    90% {
+      width: 100%;
+      opacity: 1;
+    }
+    100% {
+      width: 100%;
+      opacity: 0;
+    }
+  }
+}
+
+/* =========================================
+   2. UTILITIES & ANIMATIONS
+   =========================================
+*/
+
+/* =========================================================================
+   PERPUSTAKAAN ANIMASI IKON ARDEN (Eksklusif Ala Boxicons)
+   =========================================================================
+   CARA PAKAI (Sangat Simpel!):
+
+   [Default] Jalan 1x lalu balik ke awal.  Contoh: className="hover:ar-tada"
+   [-loop]   Jalan terus menerus tanpa henti. Contoh: className="hover:ar-tada-loop"
+   [-hold]   Jalan 1x lalu terkunci di akhir. Contoh: className="hover:ar-tada-hold"
+
+    -------------------------------------------------------------------------
+     1. AR-BOUNCE-X (Maju mundur halus - Cocok untuk panah/masuk/submit)
+     ------------------------------------------------------------------------- */
+@keyframes ar-bounce-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+@utility ar-bounce-x {
+  animation: ar-bounce-x 1s cubic-bezier(0.4, 0, 0.2, 1) 1;
+}
+@utility ar-bounce-x-loop {
+  animation: ar-bounce-x 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@utility ar-bounce-x-hold {
+  animation: ar-bounce-x 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* -------------------------------------------------------------------------
+     2. AR-FLOAT (Naik-turun melayang - Cocok untuk Cloud/Upload/Download/Save)
+     ------------------------------------------------------------------------- */
+@keyframes ar-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@utility ar-float {
+  animation: ar-float 2s ease-in-out 1;
+}
+@utility ar-float-loop {
+  animation: ar-float 2s ease-in-out infinite;
+}
+@utility ar-float-hold {
+  animation: ar-float 2s ease-in-out forwards;
+}
+
+/* -------------------------------------------------------------------------
+     3. AR-SHAKE (Getaran scanner memudar - Cocok untuk QR/Search/Bell/Alert)
+     ------------------------------------------------------------------------- */
+@keyframes ar-shake {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  15% {
+    transform: rotate(-10deg) scale(1.15);
+  }
+  30% {
+    transform: rotate(10deg) scale(1.15);
+  }
+  45% {
+    transform: rotate(-6deg) scale(1.15);
+  }
+  60% {
+    transform: rotate(6deg) scale(1.15);
+  }
+  75% {
+    transform: rotate(-2deg) scale(1.15);
+  }
+  85% {
+    transform: rotate(2deg) scale(1.15);
+  }
+}
+@utility ar-shake {
+  animation: ar-shake 1.2s ease-in-out 1;
+}
+@utility ar-shake-loop {
+  animation: ar-shake 1.2s ease-in-out infinite;
+}
+@utility ar-shake-hold {
+  animation: ar-shake 1.2s ease-in-out forwards;
+}
+
+/* -------------------------------------------------------------------------
+     4. AR-TADA (Mengecil lalu meledak goyang - Cocok untuk Success/Check/Star)
+     ------------------------------------------------------------------------- */
+@keyframes ar-tada {
+  0% {
+    transform: scale(1);
+  }
+  10%,
+  20% {
+    transform: scale(0.9) rotate(-3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale(1.2) rotate(3deg);
+  }
+  40%,
+  60%,
+  80% {
+    transform: scale(1.2) rotate(-3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+@utility ar-tada {
+  animation: ar-tada 1.5s ease-in-out 1;
+}
+@utility ar-tada-loop {
+  animation: ar-tada 1.5s ease-in-out infinite;
+}
+@utility ar-tada-hold {
+  animation: ar-tada 1.5s ease-in-out forwards;
+}
+
+/* -------------------------------------------------------------------------
+     5. AR-BEAT (Detak jantung - Cocok untuk Heart/Live/Active/Online Status)
+     ------------------------------------------------------------------------- */
+@keyframes ar-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.25);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.25);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+@utility ar-beat {
+  animation: ar-beat 1.2s ease-in-out 1;
+}
+@utility ar-beat-loop {
+  animation: ar-beat 1.2s ease-in-out infinite;
+}
+@utility ar-beat-hold {
+  animation: ar-beat 1.2s ease-in-out forwards;
+}
+
+/* -------------------------------------------------------------------------
+     6. AR-SPIN-SLOW (Putaran sangat halus - Cocok untuk Settings/Refresh/Sync)
+     ------------------------------------------------------------------------- */
+@keyframes ar-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@utility ar-spin-slow {
+  animation: ar-spin-slow 4s linear 1;
+}
+@utility ar-spin-slow-loop {
+  animation: ar-spin-slow 4s linear infinite;
+}
+@utility ar-spin-slow-hold {
+  animation: ar-spin-slow 4s linear forwards;
+}
+
+@layer utilities {
+  /* -------------------------------------------------------------------------
+     NO SCROLLBAR (Scroll mulus tanpa jejak visual scrollbar)
+     -------------------------------------------------------------------------
+     Cara pakai: Tambahkan class "no-scrollbar" pada container yang bisa di-scroll.
+  */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* Menyembunyikan di Internet Explorer & Edge */
+    scrollbar-width: none; /* Menyembunyikan di Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Menyembunyikan di Chrome, Safari, & Opera */
+  }
+
+  /* -------------------------------------------------------------------------
+     SMOOTH SCROLLBAR (Untuk Grafik/Chart horizontal yang elegan)
+     ------------------------------------------------------------------------- */
+  .smooth-scrollbar::-webkit-scrollbar {
+    height: 6px; /* Tinggi scrollbar horizontal yang tipis */
+  }
+  .smooth-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0 24px; /* Memberi jarak agar scrollbar tidak mentok pinggir banget */
+  }
+  .smooth-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .smooth-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* -------------------------------------------------------------------------
+     SIDEBAR SHINE (Efek kilapan kaca melintas)
+     -------------------------------------------------------------------------
+     Cocok untuk: Menu Sidebar yang sedang Aktif, Kartu Premium, atau Tombol.
+     Menyala saat di-hover, saat item aktif, dan saat menu miliknya terbuka.
+  */
+
+  /* 1. Resep animasinya dipindah ke sini, langsung di atas class-nya */
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 200%;
+    }
+  }
+
+  .sidebar-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    /* 2. Upgrade Warna: Pakai color-mix agar warna kilapan otomatis ganti di Light/Dark Mode */
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      color-mix(in oklab, var(--foreground) 10%, transparent) 50%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+  }
+
+  /* 3. Kilap menyala saat hover, saat item aktif, dan saat menu miliknya
+        terbuka. Dimatikan untuk pengguna yang memilih reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .sidebar-shine:hover::before,
+    .sidebar-shine[data-active]::before,
+    .sidebar-shine[data-popup-open]::before {
+      animation: shine 1.5s infinite;
+    }
+  }
+
+  /* Pengguna reduced motion tidak mendapat kilau, jadi beri latar tipis
+     sebagai penanda hover. */
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar-shine:not([data-active]):hover {
+      background-color: color-mix(in oklab, var(--sidebar-accent) 50%, transparent);
+    }
+  }
+
+  /* Navigasi keyboard (setelah Tab): item pop-up yang disorot tetap berlatar
+     agar posisinya terlihat. Hover mouse tetap hanya kilau. */
+  html[data-keyboard-nav] [data-slot="dropdown-menu-item"]:focus {
+    background-color: var(--sidebar-accent);
+  }
+}
+
+/* =========================================
+   3. CSS VARIABLES (PALET WARNA ARDEN)
+   ========================================= */
+:root {
+  --radius: 0.625rem;
+
+  /* --- AUTH --- */
+  --auth-bg: oklch(0.145 0 0);
+  --auth-card: oklch(0.205 0 0 / 0.8);
+  --auth-border: oklch(1 0 0 / 0.1);
+  --auth-title: oklch(0.985 0 0);
+  --auth-desc: oklch(0.708 0 0);
+  --auth-accent: oklch(0.488 0.243 264.376);
+
+  /* --- LANDING --- */
+  --landing-bg: oklch(0 0 0);
+  --landing-fg: oklch(0.985 0 0);
+
+  --landing-muted: oklch(0.708 0 0);
+  --landing-subtle: oklch(0.556 0 0);
+
+  --landing-surface: oklch(0.17 0 0);
+  --landing-surface-hover: oklch(0.205 0 0);
+
+  --landing-border: oklch(1 0 0 / 0.08);
+  --landing-border-hover: color-mix(
+    in oklab,
+    var(--landing-primary) 35%,
+    transparent
+  );
+
+  --landing-primary: var(--auth-accent);
+  --landing-primary-hover: oklch(0.585 0.233 277);
+  --landing-primary-foreground: oklch(0.985 0 0);
+
+  --landing-accent: oklch(0.55 0.22 285);
+  --landing-accent-soft: oklch(0.55 0.22 285 / 0.15);
+
+  --landing-grid: oklch(1 0 0 / 0.035);
+  --landing-glow: color-mix(in oklab, var(--landing-primary) 35%, transparent);
+
+  /* --- DASHBOARD DARK MODE (SMART ALPHA SYSTEM) --- */
+  --background: oklch(0.145 0 0); /* Hitam pekat dasar */
+  --foreground: oklch(0.985 0 0); /* Teks putih bersih */
+
+  --card: oklch(0.17 0 0); /* Abu-abu sangat gelap (solid) untuk alas kartu */
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.17 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  /* 🔥 FIX 1: PRIMARY BUTTON (Putih teks Hitam) */
+  --primary: oklch(0.985 0 0); /* Background tombol utama (Putih) */
+  --primary-foreground: oklch(0.145 0 0); /* Teks dalam tombol (Hitam Pekat) */
+
+  /* 🔥 FIX 2: SECONDARY BUTTON (Transparan kalem) */
+  --secondary: oklch(1 0 0 / 0.05); /* Sama dengan bg-white/5 */
+  --secondary-foreground: oklch(0.985 0 0);
+
+  /* 🔥 FIX 3: MUTED (Elemen pasif / Disabled / Subtitle) */
+  --muted: oklch(1 0 0 / 0.05); /* Background pasif transparan */
+  --muted-foreground: oklch(1 0 0 / 0.5); /* Teks redup (text-white/50) */
+
+  /* 🔥 FIX 4: ACCENT (Untuk efek Hover / Active) */
+  --accent: oklch(
+    1 0 0 / 0.1
+  ); /* Background menyala saat dihover (bg-white/10) */
+  --accent-foreground: oklch(
+    0.985 0 0
+  ); /* Teks menjadi putih solid saat dihover */
+
+  /* --- STATUS COLORS (Tetap Solid untuk Peringatan) --- */
+  --destructive: oklch(0.637 0.237 25.331);
+  --destructive-foreground: oklch(0.985 0 0);
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.145 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.145 0 0);
+  --info: oklch(0.488 0.243 264.376);
+  --info-foreground: oklch(0.985 0 0);
+
+  /* 🔥 FIX 5: BORDERS & RINGS (Tipis & Elegan) */
+  --border: oklch(1 0 0 / 0.1); /* Garis batas netral (border-white/10) */
+  --input: oklch(1 0 0 / 0.1);
+  --ring: oklch(
+    1 0 0 / 0.3
+  ); /* Cincin fokus keyboard yang tidak terlalu menusuk mata */
+
+  /* --- SIDEBAR --- */
+  --sidebar: oklch(
+    0.145 0 0
+  ); /* Mengikuti warna background agar menyatu (seamless) */
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent); /* Menggunakan aksen global (transparan) */
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /* --- CHARTS --- */
+  --chart-1: var(--primary);
+  --chart-2: var(--success);
+  --chart-3: var(--warning);
+  --chart-4: var(--destructive);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  /* --- MOBILE APP SPECIFIC --- */
+  --mobile-bg: oklch(0.12 0.015 285);
+  --mobile-card: oklch(0.18 0.01 285);
+  --mobile-surface: oklch(0.27 0 0);
+  --mobile-border: oklch(0.3 0 0);
+  --mobile-muted: oklch(0.72 0 0);
+
+  /* --- CYCLE QUALITY --- */
+  --minimal: oklch(0.623 0.214 259.815); /* Setara blue-500 */
+  --standard: oklch(0.696 0.17 162.48); /* Setara emerald-500 */
+  --maximal: oklch(0.705 0.213 47.604); /* Setara orange-500 */
+  --over: oklch(0.637 0.237 25.331); /* Setara red-500 */
+  --sholat: oklch(0.25 0 0);
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+.light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.488 0.243 264.376);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+
+  --success: oklch(0.696 0.17 162.48);
+  --success-foreground: oklch(0.145 0 0);
+
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.145 0 0);
+
+  --info: oklch(0.488 0.243 264.376);
+  --info-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: var(--primary);
+
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: var(--ring);
+}
+
+/* =========================================
+   4. BASE STYLES & FIXES
+   ========================================= */
+@layer base {
+  * {
+    @apply border-border; /* 🔥 KOREKSI: Hapus outline global yang bikin kotor */
+  }
+
+  html,
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  body {
+    @apply antialiased;
+    overflow-x: hidden;
+  }
+
+  /* 🔥 KOREKSI: GLOBAL FOCUS-VISIBLE HACK 🔥
+     Aturan ini MEMAKSA browser untuk MENGHAPUS efek outline/ring 
+     jika user mengklik pakai MOUSE/HP. Ring hanya akan muncul jika pakai TAB Keyboard.
+  */
+  :focus:not(:focus-visible) {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Ring fokus hanya untuk navigasi keyboard (Tab / Shift+Tab).
+     Di luar mode itu, ring Tailwind dan outline dinetralkan. Ini juga
+     mencegah ring muncul setelah klik atau saat menekan F12, karena Chrome
+     menganggap F12 sebagai interaksi keyboard dan menyalakan
+     :focus-visible pada elemen yang terakhir diklik.
+     Hanya ring dan outline yang dimatikan, bayangan dekoratif tidak ikut.
+     Kolom isian dikecualikan: ring di sana satu-satunya penanda posisi
+     mengetik saat diklik. */
+  html:not([data-keyboard-nav])
+    :focus-visible:not(input, textarea, select, [contenteditable="true"]) {
+    --tw-ring-shadow: 0 0 #0000 !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+    outline: none !important;
+  }
+
+  /* NVG FIX: Mencegah background putih/kuning saat browser Autofill password */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--foreground) !important;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px transparent !important;
+  }
+}
+
+/* =========================================
+   5. GLOBAL SCROLLBAR (FUTURISTIC)
+   ========================================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
+  border-radius: 999px;
+  border: 2px solid var(--background); /* Efek padding agar terlihat lebih tipis */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Perilaku "app-like" khusus surface mobile /go: blokir salin teks dan zoom.
+   Dipasang lewat kelas .mobile-app pada wrapper layout /go (belum dibuat).
+   Landing, login, dan dashboard tetap bisa di-zoom dan disalin. */
+@media (max-width: 768px) {
+  .mobile-app {
+    touch-action: pan-x pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .mobile-app input,
+  .mobile-app textarea,
+  .mobile-app [contenteditable="true"] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Hilangkan kilat sorotan saat tap, tetap berlaku di semua surface. */
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* =========================================
+   LANDING HERO ANIMATIONS
+   ========================================= */
+
+@keyframes hero-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(3px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.hero-animate {
+  opacity: 0;
+  animation: hero-enter 0.7s var(--transition-timing-function-snappy) forwards;
+}
+
+.hero-delay-1 {
+  animation-delay: 80ms;
+}
+
+.hero-delay-2 {
+  animation-delay: 160ms;
+}
+
+.hero-delay-3 {
+  animation-delay: 240ms;
+}
+
+.hero-delay-4 {
+  animation-delay: 320ms;
+}
+
+.hero-delay-5 {
+  animation-delay: 400ms;
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate {
+    opacity: 1;
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+}

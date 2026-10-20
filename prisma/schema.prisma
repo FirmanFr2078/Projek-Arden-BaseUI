@@ -1,0 +1,375 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model tbl_chart_data {
+  id_data            BigInt  @id @default(autoincrement())
+  month              Int?
+  year               Int?
+  id_class           BigInt?
+  total_present      Int?    @default(0)
+  total_menstruation Int?    @default(0)
+  total_warnings     Int?    @default(0)
+
+  tbl_classes tbl_classes? @relation(fields: [id_class], references: [id_class], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tbl_notifications {
+  id_notification BigInt    @id @default(autoincrement())
+  id_student      BigInt?
+  message         String?
+  read_status     String?   @db.VarChar(10)
+  sent_at         DateTime? @default(now()) @db.Timestamptz(6)
+
+  tbl_students tbl_students? @relation(fields: [id_student], references: [id_student], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model tbl_warnings {
+  id_warning   BigInt    @id @default(autoincrement())
+  id_student   BigInt?
+  warning_date DateTime? @db.Date
+  warning_type String?   @db.VarChar(50)
+  read_status  String?   @db.VarChar(10)
+  admin_action String?
+
+  tbl_students tbl_students? @relation(fields: [id_student], references: [id_student], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model tbl_menstruation_periods {
+  id_period         BigInt    @id @default(autoincrement())
+  id_student        BigInt?
+  start_date        DateTime? @db.Date
+  end_date          DateTime? @db.Date
+  duration          Int?
+  completion_status String?   @db.VarChar(10)
+  remarks           String?   @db.VarChar(50)
+
+  tbl_students tbl_students? @relation(fields: [id_student], references: [id_student], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model tbl_monthly_recaps {
+  id_recap           BigInt  @id @default(autoincrement())
+  id_student         BigInt?
+  month              Int?
+  year               Int?
+  total_prayers      Int?    @default(0)
+  total_menstruation Int?    @default(0)
+  total_present      Int?    @default(0)
+  total_excused      Int?    @default(0)
+  total_absent       Int?    @default(0)
+  total_warnings     Int?    @default(0)
+
+  tbl_students tbl_students? @relation(fields: [id_student], references: [id_student], onDelete: Cascade, onUpdate: NoAction)
+}
+
+// sudah update
+
+model tbl_attendance {
+  id_attendance BigInt    @id @default(autoincrement())
+  id_student    BigInt?
+  id_user       BigInt? // operator/pelaksana absensi
+  date          DateTime  @db.Date
+  time          String?   @db.VarChar(10)
+  status        String?   @db.VarChar(20)
+  remarks       String?
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  method        String?   @db.VarChar(10)
+
+  tbl_students tbl_students? @relation(fields: [id_student], references: [id_student], onDelete: Cascade, onUpdate: NoAction)
+  tbl_users    tbl_users?    @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tbl_menstruation_settings {
+  id_setting        BigInt @id @default(autoincrement())
+  min_duration      Int?   @default(5)
+  standard_duration Int?   @default(7)
+  max_duration      Int?   @default(10)
+  over_limit        Int?   @default(30)
+}
+
+model tbl_prayers {
+  id_cache   BigInt    @id @default(autoincrement())
+  date       DateTime  @unique @db.Date
+  fajr       String    @db.VarChar(5)
+  dhuhr      String    @db.VarChar(5)
+  asr        String    @db.VarChar(5)
+  maghrib    String    @db.VarChar(5)
+  isha       String    @db.VarChar(5)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model tbl_geographic {
+  id_setting    Int      @id @default(1)
+  country       String   @default("Indonesia") @db.VarChar(50)
+  city          String   @default("Kota Blitar / Jawa Timur") @db.VarChar(100)
+  timezone      String   @default("Asia/Jakarta") @db.VarChar(50)
+  method        String   @default("20") @db.VarChar(10)
+  is_api_active Boolean  @default(true)
+  updated_at    DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+}
+
+model tbl_qr_generator {
+  id_setting          Int     @id @default(1)
+  qr_shape            String  @default("square")
+  qr_color            String  @default("#000000")
+  bg_color            String  @default("#ffffff")
+  is_bg_transparent   Boolean @default(true)
+  qr_pattern          String  @default("square")
+  error_level         String  @default("Q")
+  corner_square       String  @default("square")
+  corner_square_color String  @default("#000000")
+  corner_dot          String  @default("square")
+  corner_dot_color    String  @default("#000000")
+  main_dot_color      String  @default("#000000")
+  is_custom_color     Boolean @default(false)
+  qr_icon             String? @db.Text
+  image_size          Float   @default(0.4)
+  icon_margin         Int     @default(5)
+  hide_dots_bg        Boolean @default(true)
+}
+
+model tbl_routine {
+  day_name      String   @id @db.VarChar(15)
+  is_active     Boolean  @default(true)
+  track_fajr    Boolean  @default(false)
+  track_dhuhr   Boolean  @default(true)
+  track_asr     Boolean  @default(true)
+  track_maghrib Boolean  @default(false)
+  track_isha    Boolean  @default(false)
+  updated_at    DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+}
+
+model tbl_classes {
+  id_class BigInt @id @default(autoincrement())
+
+  // Nama rombel TANPA tingkat dan TANPA tahun ajaran, mis. "MIPA 1".
+  // Service menyimpannya dalam huruf kapital dan spasi yang sudah dirapikan.
+  class_name String @db.VarChar(50)
+
+  // Identitas URL kelas untuk fitur Academic, dibuat oleh server dari
+  // tingkat + nama + tahun ajaran, mis. "10-mipa-1-2025-2026".
+  // Bukan input user.
+  slug String @unique @db.VarChar(100)
+
+  // Tingkat kelas dalam ANGKA: SMP 7/8/9, SMA 10/11/12.
+  // Bentuk romawi (X, XI, XII) hanya format tampilan di UI.
+  batch Int
+
+  // Tahun ajaran rombel ini, format "2025/2026".
+  //
+  // Satu baris tbl_classes adalah SATU ROMBEL PADA SATU TAHUN AJARAN.
+  // "11 MIPA 1" tahun 2025/2026 dan "11 MIPA 1" tahun 2026/2027
+  // adalah dua baris berbeda. Wajib agar keduanya tidak tertukar.
+  academic_year String @db.VarChar(20)
+
+  // Wali kelas. Kolom boleh kosong di database, tetapi API Directory
+  // mewajibkannya saat membuat/mengubah kelas.
+  advisor     String? @db.VarChar(100)
+  description String?
+
+  tbl_chart_data tbl_chart_data[]
+  tbl_students   tbl_students[]
+
+  // Satu rombel unik per tahun ajaran + tingkat + nama.
+  @@unique([academic_year, batch, class_name])
+}
+
+model tbl_students {
+  id_student BigInt @id @default(autoincrement())
+
+  // ID publik untuk URL (mis. /academic/[slug]/[nanoId]) agar
+  // id_student berurutan tidak terbuka ke browser. Dibuat oleh server.
+  nano_id String @unique @db.VarChar(32)
+
+  // NIS sengaja TIDAK unik: di lapangan NIS bisa kembar, jadi bukan
+  // identitas utama. Identitas utama siswi adalah icode.
+  nis        String  @db.VarChar
+  full_name  String  @db.VarChar
+  avatar_url String?
+
+  // Kelas aktif siswi saat ini. Naik kelas/pindah kelas = mengubah
+  // kolom ini ke baris tbl_classes tahun ajaran berikutnya. Siswi tidak
+  // pernah dipindah antar tabel, dan riwayatnya menempel ke id_student.
+  id_class BigInt?
+
+  period_status String? @db.VarChar
+  notes         String?
+
+  // Kode identitas ARDEN (format "ARD-XXXXXXXX"), dibuat oleh server
+  // dan dipakai di QR/scanner.
+  icode String @unique @db.VarChar(50)
+
+  tbl_attendance           tbl_attendance[]
+  tbl_notifications        tbl_notifications[]
+  tbl_warnings             tbl_warnings[]
+  tbl_menstruation_periods tbl_menstruation_periods[]
+  tbl_monthly_recaps       tbl_monthly_recaps[]
+
+  tbl_classes tbl_classes? @relation(fields: [id_class], references: [id_class], onDelete: NoAction, onUpdate: NoAction)
+
+  // Mempercepat daftar siswi per kelas, hitung total siswi per kelas,
+  // dan pengecekan "kelas masih berisi siswi" sebelum hapus kelas.
+  @@index([id_class])
+}
+
+model tbl_users {
+  // Identitas internal utama untuk seluruh relasi ARDEN.
+  id_user BigInt @id @default(autoincrement())
+
+  // Nama yang tampil di dashboard, activity log, dan profil.
+  name String @db.VarChar(100)
+
+  // ID login lokal ARDEN. Dibuat oleh Admin dari Directory.
+  // Bukan email provider dan tidak boleh duplikat.
+  username String @unique @db.VarChar(50)
+
+  // Password lokal yang SUDAH di-hash oleh bcrypt.
+  // Tetap ada sebagai metode login awal/fallback.
+  password String @db.VarChar(255)
+
+  // Role resmi user: Admin, Pemantau, atau Pelaksana.
+  // Jangan nullable agar tidak ada akun tanpa aturan akses.
+  role String @default("Pelaksana") @db.VarChar(20)
+
+  // False berarti akun diblokir/dinonaktifkan oleh Admin.
+  // Akun nonaktif tidak boleh login, meskipun password/provider valid.
+  is_active Boolean @default(true)
+
+  // Foto profil internal ARDEN.
+  // Berbeda dari avatar provider pada tbl_connections.
+  photo_url String?
+
+  // Versi seluruh session user.
+  //
+  // Nilai ini dimasukkan ke JWT saat login. Jika nilainya dinaikkan,
+  // semua JWT lama user langsung tidak valid pada pengecekan server.
+  //
+  // Digunakan saat logout, password reset, role berubah,
+  // akun dinonaktifkan, atau Admin memilih revoke akses.
+  session_version Int @default(1)
+
+  // Waktu login berhasil terakhir, baik local login maupun OAuth.
+  last_login DateTime? @db.Timestamptz(6)
+
+  // Waktu heartbeat terakhir dari browser/device aktif.
+  // Presence UI dihitung dari nilai ini, bukan dari boolean is_online.
+  last_seen_at DateTime? @db.Timestamptz(6)
+
+  // Waktu akun internal dibuat melalui seed atau Directory.
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  // Otomatis berubah saat profil, role, atau status akun diperbarui.
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  // Provider login yang sudah ditautkan oleh user dari Profile.
+  tbl_connections tbl_connections[]
+
+  // Audit log dengan user ini sebagai actor/pelaku perubahan.
+  tbl_activity_logs tbl_activity_logs[]
+
+  // Hanya pertahankan bila tbl_attendance memang memiliki id_user
+  // sebagai operator/pelaksana yang melakukan absensi.
+  tbl_attendance tbl_attendance[]
+}
+
+model tbl_connections {
+  // ID unik koneksi provider.
+  id_connection BigInt @id @default(autoincrement())
+
+  // Pemilik koneksi: akun internal ARDEN.
+  id_user BigInt
+
+  // Nama provider yang digunakan, misalnya:
+  // google | github | discord
+  provider String @db.VarChar(50)
+
+  // ID unik yang diberikan provider.
+  // Ini adalah identitas OAuth yang dipercaya saat login.
+  provider_id String @db.VarChar(255)
+
+  // Data untuk card UI Profile > Connections.
+  // Boleh berbeda antar-provider dan tidak dipakai untuk otorisasi.
+  display_name String? @db.VarChar(150)
+  username     String? @db.VarChar(150)
+  email        String? @db.VarChar(150)
+  avatar_url   String?
+  profile_url  String?
+
+  // Data tambahan spesifik provider yang tidak perlu dibuat
+  // sebagai kolom tetap, misalnya locale Discord atau GitHub login.
+  metadata Json?
+
+  // Waktu pertama provider ditautkan ke akun ARDEN.
+  connected_at DateTime @default(now()) @db.Timestamptz(6)
+
+  // Otomatis berubah bila metadata provider disinkronkan ulang.
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  // Koneksi dihapus bersama user bila akun user benar-benar dihapus.
+  tbl_users tbl_users @relation(fields: [id_user], references: [id_user], onDelete: Cascade, onUpdate: NoAction)
+
+  // Satu identitas provider hanya boleh dimiliki satu user ARDEN.
+  @@unique([provider, provider_id])
+  // Satu user hanya boleh menautkan satu akun untuk setiap provider.
+  @@unique([id_user, provider])
+  // Mempercepat pengambilan seluruh koneksi milik satu user.
+  @@index([id_user])
+}
+
+model tbl_activity_logs {
+  // ID unik setiap event/audit log.
+  id_log BigInt @id @default(autoincrement())
+
+  // USER untuk aksi manusia; SYSTEM untuk cron, engine, atau otomatisasi.
+  actor_type String @default("USER") @db.VarChar(20)
+
+  // Pelaku aksi bila actor_type = USER.
+  // Null bila event berasal dari sistem atau akun actor sudah dihapus.
+  id_user BigInt?
+
+  // Snapshot nama dan role actor saat event terjadi.
+  // Tetap terbaca walau user kemudian berganti nama atau role.
+  actor_name String? @db.VarChar(100)
+  actor_role String? @db.VarChar(20)
+
+  // Kelompok besar: AUTH, DIRECTORY, GLOBALS, ATTENDANCE, SYSTEM.
+  category String @db.VarChar(50)
+
+  // Lokasi/fokus fitur: globals.geographic, globals.qr-engine, dst.
+  scope String @db.VarChar(100)
+
+  // Nama aksi stabil untuk engine dan filter:
+  // geographic.updated, connection.linked, prayer.sync.completed.
+  action String @db.VarChar(100)
+
+  // Hasil eksekusi: SUCCESS, FAILED, atau SKIPPED.
+  outcome String? @db.VarChar(20)
+
+  // Data yang terdampak oleh aksi.
+  target_type String? @db.VarChar(50)
+  target_id   String? @db.VarChar(100)
+
+  // Kalimat pendek siap tampil pada card atau activity feed.
+  summary String @db.VarChar(255)
+
+  // Detail audit: before/after, revision, error, duration_ms, dll.
+  details Json?
+
+  // Waktu server saat event dicatat.
+  // UI mengubahnya menjadi WIB dan format “1 menit lalu”.
+  timestamp DateTime @default(now()) @db.Timestamptz(6)
+
+  // Log tidak ikut hilang bila akun actor dihapus.
+  tbl_users tbl_users? @relation(fields: [id_user], references: [id_user], onDelete: SetNull, onUpdate: NoAction)
+
+  // Untuk feed per kategori/card.
+  @@index([category, scope, timestamp])
+  // Untuk halaman riwayat aktivitas seorang user.
+  @@index([id_user, timestamp])
+  // Untuk riwayat sebuah data/card tertentu.
+  @@index([target_type, target_id, timestamp])
+}

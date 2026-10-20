@@ -1,0 +1,27 @@
+# ============================================================
+# APPROVED DEPENDENCY BUILD SCRIPTS
+# ============================================================
+
+allowBuilds:
+  "@prisma/engines": true
+  bcrypt: true
+  esbuild: true
+  prisma: true
+  sharp: false
+  unrs-resolver: false
+
+# ============================================================
+# NETWORK / INSTALL RESILIENCE
+# ============================================================
+#
+# Membantu instalasi dependency ketika koneksi lambat atau tidak stabil.
+# Nilai dibuat konservatif agar tidak terlalu banyak request paralel.
+
+networkConcurrency: 4
+
+fetchRetries: 5
+fetchRetryMintimeout: 20000
+fetchRetryMaxtimeout: 60000
+
+# Maksimal waktu tunggu satu request package: 5 menit.
+fetchTimeout: 300000
