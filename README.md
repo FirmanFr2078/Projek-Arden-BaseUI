@@ -50,6 +50,8 @@ arden-v.4
 │  │  ├─ (dekstop)
 │  │  │  ├─ dashboard
 │  │  │  │  ├─ directory
+│  │  │  │  │  ├─ classes
+│  │  │  │  │  │  └─ page.tsx
 │  │  │  │  │  └─ students
 │  │  │  │  │     └─ page.tsx
 │  │  │  │  ├─ loading.tsx
@@ -63,7 +65,11 @@ arden-v.4
 │  │  │  │  │  └─ route.ts
 │  │  │  │  └─ session
 │  │  │  │     └─ route.ts
-│  │  │  └─ classes
+│  │  │  ├─ classes
+│  │  │  │  ├─ route.ts
+│  │  │  │  └─ [id]
+│  │  │  │     └─ route.ts
+│  │  │  └─ students
 │  │  │     ├─ route.ts
 │  │  │     └─ [id]
 │  │  │        └─ route.ts
@@ -82,6 +88,12 @@ arden-v.4
 │  │  ├─ dashboard
 │  │  │  ├─ app-sidebar.tsx
 │  │  │  ├─ dashboard-shell.tsx
+│  │  │  ├─ directory
+│  │  │  │  ├─ classes
+│  │  │  │  │  └─ classes-view.tsx
+│  │  │  │  ├─ record-delete-dialog.tsx
+│  │  │  │  ├─ record-form-dialog.tsx
+│  │  │  │  └─ record-table.tsx
 │  │  │  ├─ header.tsx
 │  │  │  ├─ nav-group.tsx
 │  │  │  ├─ nav-role.tsx
@@ -123,6 +135,8 @@ arden-v.4
 │  │     └─ tooltip.tsx
 │  ├─ config
 │  │  └─ dashboard
+│  │     ├─ directory
+│  │     │  └─ class-fields.ts
 │  │     ├─ menu.ts
 │  │     ├─ popup.ts
 │  │     ├─ role-display.ts
@@ -132,7 +146,8 @@ arden-v.4
 │  ├─ database
 │  │  ├─ activity.service.ts
 │  │  ├─ auth.service.ts
-│  │  └─ class.service.ts
+│  │  ├─ class.service.ts
+│  │  └─ student.service.ts
 │  ├─ engine
 │  │  ├─ access-engine.ts
 │  │  ├─ activity-engine.ts
@@ -145,17 +160,32 @@ arden-v.4
 │  │  │  ├─ use-logout.ts
 │  │  │  └─ use-session.ts
 │  │  ├─ desktop
+│  │  │  ├─ directory
+│  │  │  │  ├─ classes
+│  │  │  │  │  └─ use-classes-page.ts
+│  │  │  │  └─ records
+│  │  │  │     ├─ use-record-collection.ts
+│  │  │  │     ├─ use-record-dialog.ts
+│  │  │  │     ├─ use-record-mutation.ts
+│  │  │  │     └─ use-record-table.ts
 │  │  │  ├─ use-dashboard-navigation.ts
 │  │  │  ├─ use-dashboard-preview.ts
-│  │  │  └─ use-mobile.ts
+│  │  │  ├─ use-mobile.ts
+│  │  │  └─ use-session-expiry.ts
 │  │  └─ mobile
 │  ├─ lib
 │  │  ├─ api
+│  │  │  ├─ client.ts
 │  │  │  └─ define-route.ts
 │  │  ├─ data-error.ts
 │  │  ├─ directory
 │  │  │  ├─ audit.ts
-│  │  │  └─ class-rules.ts
+│  │  │  ├─ class-format.ts
+│  │  │  ├─ class-rules.ts
+│  │  │  ├─ form.ts
+│  │  │  └─ student-rules.ts
+│  │  ├─ ids.ts
+│  │  ├─ page-guard.ts
 │  │  ├─ prisma.ts
 │  │  ├─ record-id.ts
 │  │  ├─ storage.ts
@@ -171,6 +201,7 @@ arden-v.4
 │  │  ├─ dashboard.ts
 │  │  ├─ form.ts
 │  │  ├─ student.ts
+│  │  ├─ table.ts
 │  │  └─ user.ts
 │  └─ types.d.ts
 └─ tsconfig.json

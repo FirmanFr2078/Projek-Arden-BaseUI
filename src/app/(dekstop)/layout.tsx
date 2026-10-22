@@ -10,6 +10,7 @@ import {
   SIDEBAR_COOKIE_NAME,
   parseSidebarOpen,
 } from "@/config/dashboard/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 type DesktopLayoutProps = {
   children: ReactNode;
@@ -78,8 +79,18 @@ export default async function DesktopLayout({ children }: DesktopLayoutProps) {
   );
 
   return (
-    <DashboardShell user={user} defaultSidebarOpen={defaultSidebarOpen}>
-      {children}
-    </DashboardShell>
+    <>
+      <DashboardShell user={user} defaultSidebarOpen={defaultSidebarOpen}>
+        {children}
+      </DashboardShell>
+
+      {/*
+       * Notifikasi (toast) untuk seluruh surface desktop.
+       * Aplikasi selalu bertema gelap (<html class="dark">), sedangkan
+       * Toaster membaca tema dari next-themes yang tidak dipasang, jadi
+       * temanya dipaksa "dark" agar tidak terang di OS mode terang.
+       */}
+      <Toaster theme="dark" />
+    </>
   );
 }
