@@ -117,6 +117,64 @@ export async function apiRequest<T>(
   return payload.data as T
 }
 
+/**
+ * Mengunduh berkas dari endpoint yang mengembalikan data biner (mis. Excel).
+ *
+ * Sukses → Blob + nama berkas dari header Content-Disposition (bila ada).
+ * Gagal  → ApiClientError, karena endpoint tetap menjawab envelope JSON saat
+ * error (401/403/500).
+ */
+export async function apiDownload(
+  url: string,
+  options: { signal?: AbortSignal } = {},
+): Promise<{ blob: Blob; fileName: string | null }> {
+  let response: Response
+
+  try {
+    response = await fetch(url, { signal: options.signal, cache: "no-store" })
+  } catch (error) {
+    if (isAbortError(error)) {
+      throw error
+    }
+
+    throw new ApiClientError(
+      "NETWORK_ERROR",
+      "Tidak dapat terhubung ke server. Periksa koneksi Anda.",
+      0,
+    )
+  }
+
+  if (!response.ok) {
+    let payload: unknown = null
+
+    try {
+      payload = await response.json()
+    } catch {
+      payload = null
+    }
+
+    if (isApiResponse(payload) && !payload.success) {
+      throw new ApiClientError(
+        payload.code,
+        payload.message,
+        response.status,
+        payload.fieldErrors,
+      )
+    }
+
+    throw new ApiClientError(
+      "INVALID_RESPONSE",
+      "Berkas tidak dapat diunduh.",
+      response.status,
+    )
+  }
+
+  const disposition = response.headers.get("content-disposition") ?? ""
+  const match = /filename="([^"]+)"/.exec(disposition)
+
+  return { blob: await response.blob(), fileName: match ? match[1] : null }
+}
+
 /** True bila error berasal dari AbortController.abort(). */
 export function isAbortError(error: unknown): boolean {
   return (

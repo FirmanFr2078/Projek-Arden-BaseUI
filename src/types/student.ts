@@ -107,4 +107,6 @@ export type StudentImportSkip = {
 export type StudentImportResult = {
   createdCount: number
   skipped: StudentImportSkip[]
+  /** Tahun ajaran tujuan yang dipakai server (diisi user atau terbaru). */
+  academicYear: string
 }

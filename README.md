@@ -70,6 +70,10 @@ arden-v.4
 │  │  │  │  └─ [id]
 │  │  │  │     └─ route.ts
 │  │  │  └─ students
+│  │  │     ├─ export
+│  │  │     │  └─ route.ts
+│  │  │     ├─ import
+│  │  │     │  └─ route.ts
 │  │  │     ├─ route.ts
 │  │  │     └─ [id]
 │  │  │        └─ route.ts
@@ -93,7 +97,10 @@ arden-v.4
 │  │  │  │  │  └─ classes-view.tsx
 │  │  │  │  ├─ record-delete-dialog.tsx
 │  │  │  │  ├─ record-form-dialog.tsx
-│  │  │  │  └─ record-table.tsx
+│  │  │  │  ├─ record-table.tsx
+│  │  │  │  └─ students
+│  │  │  │     ├─ student-import-dialog.tsx
+│  │  │  │     └─ students-view.tsx
 │  │  │  ├─ header.tsx
 │  │  │  ├─ nav-group.tsx
 │  │  │  ├─ nav-role.tsx
@@ -136,7 +143,8 @@ arden-v.4
 │  ├─ config
 │  │  └─ dashboard
 │  │     ├─ directory
-│  │     │  └─ class-fields.ts
+│  │     │  ├─ class-fields.ts
+│  │     │  └─ student-fields.ts
 │  │     ├─ menu.ts
 │  │     ├─ popup.ts
 │  │     ├─ role-display.ts
@@ -147,6 +155,7 @@ arden-v.4
 │  │  ├─ activity.service.ts
 │  │  ├─ auth.service.ts
 │  │  ├─ class.service.ts
+│  │  ├─ student-transfer.service.ts
 │  │  └─ student.service.ts
 │  ├─ engine
 │  │  ├─ access-engine.ts
@@ -163,11 +172,15 @@ arden-v.4
 │  │  │  ├─ directory
 │  │  │  │  ├─ classes
 │  │  │  │  │  └─ use-classes-page.ts
-│  │  │  │  └─ records
-│  │  │  │     ├─ use-record-collection.ts
-│  │  │  │     ├─ use-record-dialog.ts
-│  │  │  │     ├─ use-record-mutation.ts
-│  │  │  │     └─ use-record-table.ts
+│  │  │  │  ├─ records
+│  │  │  │  │  ├─ use-record-collection.ts
+│  │  │  │  │  ├─ use-record-dialog.ts
+│  │  │  │  │  ├─ use-record-mutation.ts
+│  │  │  │  │  └─ use-record-table.ts
+│  │  │  │  └─ students
+│  │  │  │     ├─ use-student-export.ts
+│  │  │  │     ├─ use-student-import.ts
+│  │  │  │     └─ use-students-page.ts
 │  │  │  ├─ use-dashboard-navigation.ts
 │  │  │  ├─ use-dashboard-preview.ts
 │  │  │  ├─ use-mobile.ts
@@ -183,8 +196,17 @@ arden-v.4
 │  │  │  ├─ class-format.ts
 │  │  │  ├─ class-rules.ts
 │  │  │  ├─ form.ts
+│  │  │  ├─ student-export.ts
+│  │  │  ├─ student-format.ts
+│  │  │  ├─ student-import-rules.ts
 │  │  │  └─ student-rules.ts
+│  │  ├─ download.ts
 │  │  ├─ ids.ts
+│  │  ├─ import
+│  │  │  ├─ import-columns.ts
+│  │  │  ├─ parse-sheet.ts
+│  │  │  ├─ parse-sql.ts
+│  │  │  └─ student-template.ts
 │  │  ├─ page-guard.ts
 │  │  ├─ prisma.ts
 │  │  ├─ record-id.ts

@@ -146,6 +146,12 @@ export function defineRoute<
 
       const data = await handler({ user, request, params })
 
+      // Handler boleh mengembalikan Response utuh, mis. file unduhan (Excel).
+      // Auth, surface, dan penanganan error tetap berlaku seperti biasa.
+      if (data instanceof Response) {
+        return data
+      }
+
       return respondSuccess(data, options.successStatus ?? 200)
     } catch (error) {
       return respondError(error, request)
