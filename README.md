@@ -59,6 +59,8 @@ arden-v.4
 │  │  │  └─ layout.tsx
 │  │  ├─ api
 │  │  │  ├─ auth
+│  │  │  │  ├─ heartbeat
+│  │  │  │  │  └─ route.ts
 │  │  │  │  ├─ login
 │  │  │  │  │  └─ route.ts
 │  │  │  │  ├─ logout
@@ -69,13 +71,21 @@ arden-v.4
 │  │  │  │  ├─ route.ts
 │  │  │  │  └─ [id]
 │  │  │  │     └─ route.ts
-│  │  │  └─ students
-│  │  │     ├─ export
-│  │  │     │  └─ route.ts
-│  │  │     ├─ import
-│  │  │     │  └─ route.ts
+│  │  │  ├─ students
+│  │  │  │  ├─ export
+│  │  │  │  │  └─ route.ts
+│  │  │  │  ├─ import
+│  │  │  │  │  └─ route.ts
+│  │  │  │  ├─ route.ts
+│  │  │  │  └─ [id]
+│  │  │  │     └─ route.ts
+│  │  │  └─ users
 │  │  │     ├─ route.ts
 │  │  │     └─ [id]
+│  │  │        ├─ reset-password
+│  │  │        │  └─ route.ts
+│  │  │        ├─ revoke-sessions
+│  │  │        │  └─ route.ts
 │  │  │        └─ route.ts
 │  │  ├─ docs
 │  │  │  └─ page.tsx
@@ -155,8 +165,10 @@ arden-v.4
 │  │  ├─ activity.service.ts
 │  │  ├─ auth.service.ts
 │  │  ├─ class.service.ts
+│  │  ├─ presence.service.ts
 │  │  ├─ student-transfer.service.ts
-│  │  └─ student.service.ts
+│  │  ├─ student.service.ts
+│  │  └─ user.service.ts
 │  ├─ engine
 │  │  ├─ access-engine.ts
 │  │  ├─ activity-engine.ts
@@ -165,6 +177,7 @@ arden-v.4
 │  │  └─ authorization-engine.ts
 │  ├─ hooks
 │  │  ├─ auth
+│  │  │  ├─ use-heartbeat.ts
 │  │  │  ├─ use-login.ts
 │  │  │  ├─ use-logout.ts
 │  │  │  └─ use-session.ts
@@ -199,7 +212,9 @@ arden-v.4
 │  │  │  ├─ student-export.ts
 │  │  │  ├─ student-format.ts
 │  │  │  ├─ student-import-rules.ts
-│  │  │  └─ student-rules.ts
+│  │  │  ├─ student-rules.ts
+│  │  │  ├─ user-access.ts
+│  │  │  └─ user-rules.ts
 │  │  ├─ download.ts
 │  │  ├─ ids.ts
 │  │  ├─ import
@@ -222,6 +237,7 @@ arden-v.4
 │  │  ├─ class.ts
 │  │  ├─ dashboard.ts
 │  │  ├─ form.ts
+│  │  ├─ presence.ts
 │  │  ├─ student.ts
 │  │  ├─ table.ts
 │  │  └─ user.ts
