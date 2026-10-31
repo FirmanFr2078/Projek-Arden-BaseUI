@@ -19,7 +19,7 @@ import { NIS_PATTERN, STUDENT_LIMITS } from "@/types/student"
  * Nama: huruf (termasuk beraksen), spasi, titik, koma, apostrof, dan strip.
  * Angka dan simbol lain ditolak.
  */
-const FULL_NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M} .,'\u2019-]*$/u
+export const FULL_NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M} .,'\u2019-]*$/u
 
 /** id kelas dari form: string angka (BigInt dikirim sebagai string). */
 const ID_PATTERN = /^\d{1,18}$/

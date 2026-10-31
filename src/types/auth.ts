@@ -98,6 +98,17 @@ export const PASSWORD_MIN_LENGTH = 8
 export const PASSWORD_MAX_BYTES = 72
 
 /**
+ * Aturan username lokal: huruf kecil, angka, titik, strip, underscore,
+ * 3 sampai 50 karakter. Satu sumber untuk auth-engine dan form Users.
+ */
+export const USERNAME_PATTERN = /^[a-z0-9._-]{3,50}$/
+
+/** Username disimpan dan dibandingkan dalam bentuk ini. */
+export function normalizeUsername(username: string): string {
+  return username.trim().toLowerCase()
+}
+
+/**
  * Payload login internal dari form.
  */
 export type LocalLoginInput = {

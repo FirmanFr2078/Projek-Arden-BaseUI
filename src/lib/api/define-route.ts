@@ -66,11 +66,28 @@ export class RouteError extends Error {
   }
 }
 
+/**
+ * Satu surface atau DAFTAR surface yang diizinkan. Endpoint yang dipakai
+ * kedua surface (mis. heartbeat) memakai ["desktop", "mobile"].
+ */
+type SurfaceOption = AppSurface | readonly AppSurface[]
+
+/** Menyeragamkan opsi surface menjadi daftar. Default hanya desktop. */
+function toSurfaceList(
+  surface: SurfaceOption | undefined,
+): readonly AppSurface[] {
+  if (surface === undefined) {
+    return ["desktop"]
+  }
+
+  return typeof surface === "string" ? [surface] : surface
+}
+
 type RouteOptions = {
   /** Capability yang wajib dimiliki user. */
   capability: AppCapability
-  /** Surface yang diizinkan. Default "desktop". */
-  surface?: AppSurface
+  /** Surface yang diizinkan. Default hanya "desktop". */
+  surface?: SurfaceOption
   /** Status HTTP saat sukses. Default 200 (pakai 201 untuk create). */
   successStatus?: number
 }
@@ -132,8 +149,9 @@ export function defineRoute<
   ): Promise<Response> {
     try {
       const user = await requireCapability(options.capability)
+      const surfaces = toSurfaceList(options.surface)
 
-      if (!hasSurface(user, options.surface ?? "desktop")) {
+      if (!surfaces.some((surface) => hasSurface(user, surface))) {
         throw new AuthorizationError(
           "FORBIDDEN",
           "Aksi ini tidak tersedia untuk peran Anda.",

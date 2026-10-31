@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 
 import { DashboardPreviewProvider } from "@/contexts/dashboard-preview-context"
+import { useHeartbeat } from "@/hooks/auth/use-heartbeat"
 import type { AuthenticatedUser } from "@/types/auth"
 import {
   SidebarInset,
@@ -37,6 +38,10 @@ export function DashboardShell({
   defaultSidebarOpen,
   children,
 }: DashboardShellProps) {
+
+  // Detak berkala agar status online tampil di halaman Users.
+  useHeartbeat()
+  
   return (
     <DashboardPreviewProvider realRole={user.role}>
       <SidebarProvider defaultOpen={defaultSidebarOpen}>

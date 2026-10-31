@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 
 import { ActivityService } from "@/database/activity.service"
+import { PresenceService } from "@/database/presence.service"
 import {
   AuthEngineError,
   normalizeUsername,
@@ -179,26 +180,20 @@ export class AuthService {
     return toAuthenticatedUser(user)
   }
 
-  /**
+    /**
    * Heartbeat hanya memperbarui presence.
    *
-   * Tidak membuat activity log karena heartbeat dapat terjadi sangat
-   * sering dan akan memenuhi tabel audit tanpa memberi nilai berarti.
+   * Penulisannya (termasuk pembatasan 20 detik) ada di PresenceService,
+   * satu-satunya penulis last_seen_at. Tidak membuat activity log.
    */
   static async recordHeartbeat(
     userId: string | bigint | number,
     expectedSessionVersion: number,
   ) {
-    await prisma.tbl_users.updateMany({
-      where: {
-        id_user: toInternalUserId(userId),
-        is_active: true,
-        session_version: expectedSessionVersion,
-      },
-      data: {
-        last_seen_at: new Date(),
-      },
-    })
+    await PresenceService.recordHeartbeat(
+      String(userId),
+      expectedSessionVersion,
+    )
   }
 
   /**

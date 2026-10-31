@@ -14,6 +14,8 @@ import {
 import {
   PASSWORD_MAX_BYTES as MAX_BCRYPT_PASSWORD_BYTES,
   PASSWORD_MIN_LENGTH as MIN_PASSWORD_LENGTH,
+  USERNAME_PATTERN,
+  normalizeUsername,
 } from "@/types/auth"
 
 /**
@@ -44,10 +46,10 @@ export {
 
 /**
  * Mengubah username menjadi format internal yang konsisten.
+ * Didefinisikan di types/auth.ts (dipakai juga oleh form Users) dan
+ * diekspor ulang di sini agar impor lama tetap berfungsi.
  */
-export function normalizeUsername(username: string) {
-  return username.trim().toLowerCase()
-}
+export { normalizeUsername }
 
 /**
  * Validasi username untuk Directory saat membuat/memperbarui user.
@@ -58,7 +60,7 @@ export function normalizeUsername(username: string) {
 export function validateUsername(username: string) {
   const normalized = normalizeUsername(username)
 
-  if (!/^[a-z0-9._-]{3,50}$/.test(normalized)) {
+  if (!USERNAME_PATTERN.test(normalized)) {
     throw new AuthEngineError(
       "INVALID_USERNAME",
       "Username hanya boleh memakai huruf kecil, angka, titik, strip, atau underscore.",

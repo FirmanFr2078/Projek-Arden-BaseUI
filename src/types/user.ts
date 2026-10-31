@@ -8,8 +8,8 @@ import type { AppRole } from "@/types/auth"
  * Dipakai Directory untuk mengelola akun. Login dan session tetap
  * milik types/auth.ts (AuthenticatedUser).
  *
- * Aturan password dan username ada di types/auth.ts dan
- * engine/auth-engine.ts; jangan menduplikasinya di sini.
+ * Aturan password dan username ada di types/auth.ts; jangan menduplikasinya
+ * di sini.
  * ============================================================
  */
 
@@ -23,8 +23,8 @@ export const USER_LIMITS = {
  * maupun hash.
  *
  * Tanggal berupa string ISO karena response API adalah JSON.
- * Flag di bawah dihitung SERVER terhadap user yang sedang login;
- * UI hanya mencerminkannya.
+ * Semua flag di bawah dihitung SERVER terhadap user yang sedang login;
+ * UI hanya mencerminkannya, sehingga aturan hanya hidup di satu tempat.
  */
 export type UserRecord = {
   id: string
@@ -33,16 +33,32 @@ export type UserRecord = {
   role: AppRole
   photoUrl: string | null
   isActive: boolean
+
   lastLoginAt: string | null
-  /** Aktivitas terakhir (heartbeat). Null selama heartbeat belum dikirim. */
+  /** Detak terakhir (heartbeat). Null selama user belum pernah terlihat. */
   lastSeenAt: string | null
+  /** Online sekarang, dinilai dengan jam server (lihat types/presence.ts). */
+  isOnline: boolean
   createdAt: string
+  updatedAt: string
 
   /** Baris ini adalah akun yang sedang login. */
   isSelf: boolean
   canEdit: boolean
   canDelete: boolean
   canResetPassword: boolean
+  canRevokeSessions: boolean
+
+  /**
+   * Alasan ubah dan hapus dikunci (akun sendiri, atau akun Admin), atau
+   * null. Untuk tooltip; null berarti tidak ada kunci.
+   */
+  lockedReason: string | null
+  /**
+   * Alasan hapus diblokir karena akun sudah punya riwayat (absensi atau
+   * jejak audit), atau null. Akun seperti ini cukup dinonaktifkan.
+   */
+  deleteBlockedReason: string | null
 }
 
 /** Body POST /api/users. */

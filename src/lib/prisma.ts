@@ -30,6 +30,11 @@ const pool =
     max: 10,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 10_000,
+    // Menjaga koneksi idle tetap hidup. Tanpa ini router/NAT atau pooler
+    // dapat memutus socket diam-diam, dan query berikutnya baru gagal
+    // setelah menunggu (ETIMEDOUT).
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 10_000,
   })
 
 const adapter = new PrismaPg(pool)
