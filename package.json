@@ -17,7 +17,6 @@
     "@prisma/client": "7.7.0",
     "@serwist/next": "9.5.12",
     "@supabase/supabase-js": "^2.112.4",
-    "@tanstack/react-table": "^9.3.1",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
