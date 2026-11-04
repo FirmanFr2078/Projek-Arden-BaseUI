@@ -105,12 +105,18 @@ arden-v.4
 │  │  │  ├─ directory
 │  │  │  │  ├─ classes
 │  │  │  │  │  └─ classes-view.tsx
+│  │  │  │  ├─ password-field.tsx
 │  │  │  │  ├─ record-delete-dialog.tsx
 │  │  │  │  ├─ record-form-dialog.tsx
 │  │  │  │  ├─ record-table.tsx
-│  │  │  │  └─ students
-│  │  │  │     ├─ student-import-dialog.tsx
-│  │  │  │     └─ students-view.tsx
+│  │  │  │  ├─ students
+│  │  │  │  │  ├─ student-import-dialog.tsx
+│  │  │  │  │  └─ students-view.tsx
+│  │  │  │  └─ users
+│  │  │  │     ├─ presence-indicator.tsx
+│  │  │  │     ├─ reset-password-dialog.tsx
+│  │  │  │     ├─ role-badge.tsx
+│  │  │  │     └─ user-avatar.tsx
 │  │  │  ├─ header.tsx
 │  │  │  ├─ nav-group.tsx
 │  │  │  ├─ nav-role.tsx
@@ -154,7 +160,8 @@ arden-v.4
 │  │  └─ dashboard
 │  │     ├─ directory
 │  │     │  ├─ class-fields.ts
-│  │     │  └─ student-fields.ts
+│  │     │  ├─ student-fields.ts
+│  │     │  └─ user-fields.ts
 │  │     ├─ menu.ts
 │  │     ├─ popup.ts
 │  │     ├─ role-display.ts
@@ -190,13 +197,16 @@ arden-v.4
 │  │  │  │  │  ├─ use-record-dialog.ts
 │  │  │  │  │  ├─ use-record-mutation.ts
 │  │  │  │  │  └─ use-record-table.ts
-│  │  │  │  └─ students
-│  │  │  │     ├─ use-student-export.ts
-│  │  │  │     ├─ use-student-import.ts
-│  │  │  │     └─ use-students-page.ts
+│  │  │  │  ├─ students
+│  │  │  │  │  ├─ use-student-export.ts
+│  │  │  │  │  ├─ use-student-import.ts
+│  │  │  │  │  └─ use-students-page.ts
+│  │  │  │  └─ users
+│  │  │  │     └─ use-users-page.ts
 │  │  │  ├─ use-dashboard-navigation.ts
 │  │  │  ├─ use-dashboard-preview.ts
 │  │  │  ├─ use-mobile.ts
+│  │  │  ├─ use-now.ts
 │  │  │  └─ use-session-expiry.ts
 │  │  └─ mobile
 │  ├─ lib
@@ -209,6 +219,9 @@ arden-v.4
 │  │  │  ├─ class-format.ts
 │  │  │  ├─ class-rules.ts
 │  │  │  ├─ form.ts
+│  │  │  ├─ format-time.ts
+│  │  │  ├─ password-generator.ts
+│  │  │  ├─ password-strength.ts
 │  │  │  ├─ student-export.ts
 │  │  │  ├─ student-format.ts
 │  │  │  ├─ student-import-rules.ts
