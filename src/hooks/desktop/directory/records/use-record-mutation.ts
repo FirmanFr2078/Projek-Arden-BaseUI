@@ -75,5 +75,19 @@ export function useRecordMutation<TRecord>({
     [endpoint, run],
   )
 
-  return { create, update, remove, isPending }
+  /**
+   * Aksi khusus pada satu record: POST {endpoint}/{id}/{action}, mis.
+   * "reset-password" atau "revoke-sessions" pada /api/users.
+   */
+  const perform = useCallback(
+    (id: string, action: string, body?: Record<string, unknown>) =>
+      run<{ id: string }>(
+        `${endpoint}/${encodeURIComponent(id)}/${action}`,
+        "POST",
+        body,
+      ),
+    [endpoint, run],
+  )
+
+  return { create, update, remove, perform, isPending }
 }

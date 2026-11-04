@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react"
 import { LoaderCircleIcon } from "lucide-react"
 
+import { PasswordField } from "@/components/dashboard/directory/password-field"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -189,11 +190,23 @@ export function RecordFormDialog({
                         ))}
                       </SelectContent>
                     </Select>
+                  ) : field.type === "password" ? (
+                    <PasswordField
+                      id={id}
+                      value={value}
+                      onChange={(next) => handleChange(field, next)}
+                      placeholder={field.placeholder}
+                      maxLength={field.maxLength}
+                      disabled={isSaving}
+                      invalid={Boolean(error)}
+                      describedBy={error ? `${id}-error` : undefined}
+                      showChecks={mode === "create"}
+                    />
                   ) : (
                     <Input
                       id={id}
                       name={field.name}
-                      type={field.type === "password" ? "password" : "text"}
+                      type="text"
                       value={value}
                       onChange={(event) =>
                         handleChange(field, event.target.value)

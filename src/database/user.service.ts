@@ -441,7 +441,8 @@ function toUserRecord(row: UserRow, actorId: string): UserRecord {
     isActive: row.is_active,
     lastLoginAt: row.last_login ? row.last_login.toISOString() : null,
     lastSeenAt: row.last_seen_at ? row.last_seen_at.toISOString() : null,
-    isOnline: isUserOnline(row.last_seen_at),
+    // Akun nonaktif tidak dihitung online walau detak terakhirnya masih baru.
+    isOnline: row.is_active && isUserOnline(row.last_seen_at),
     createdAt: row.created_at.toISOString(),
     updatedAt: row.updated_at.toISOString(),
     ...accessFor(row, actorId),

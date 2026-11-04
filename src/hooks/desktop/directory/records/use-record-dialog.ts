@@ -6,15 +6,21 @@ import { useCallback, useState } from "react"
  * Satu state untuk semua dialog sebuah halaman. Menggantikan empat
  * boolean terpisah (openCreate, editData, deleteData, ...) di v.3,
  * sehingga mustahil dua dialog terbuka bersamaan.
+ *
+ * TAction = nama aksi khusus tambahan pada satu record (mis. "reset-password"
+ * pada halaman Users). Tanpa TAction hanya create, edit, dan delete.
  */
-export type RecordDialogState<T> =
+export type RecordDialogState<T, TAction extends string = never> =
   | { type: "closed" }
   | { type: "create" }
   | { type: "edit"; record: T }
   | { type: "delete"; record: T }
+  | { type: TAction; record: T }
 
-export function useRecordDialog<T>() {
-  const [state, setState] = useState<RecordDialogState<T>>({ type: "closed" })
+export function useRecordDialog<T, TAction extends string = never>() {
+  const [state, setState] = useState<RecordDialogState<T, TAction>>({
+    type: "closed",
+  })
 
   const openCreate = useCallback(() => setState({ type: "create" }), [])
 
@@ -28,7 +34,12 @@ export function useRecordDialog<T>() {
     [],
   )
 
+  const openAction = useCallback(
+    (type: TAction, record: T) => setState({ type, record }),
+    [],
+  )
+
   const close = useCallback(() => setState({ type: "closed" }), [])
 
-  return { state, openCreate, openEdit, openDelete, close }
+  return { state, openCreate, openEdit, openDelete, openAction, close }
 }

@@ -19,6 +19,8 @@ type RecordDeleteDialogProps = {
   /** Isi penjelasan; boleh berisi elemen (mis. peringatan tambahan). */
   description: ReactNode
   confirmLabel?: string
+  /** Ikon tombol konfirmasi. Default ikon tempat sampah. */
+  icon?: ReactNode
   isDeleting: boolean
   onConfirm: () => Promise<void>
   onClose: () => void
@@ -36,6 +38,7 @@ export function RecordDeleteDialog({
   title,
   description,
   confirmLabel = "Hapus permanen",
+  icon = <Trash2Icon />,
   isDeleting,
   onConfirm,
   onClose,
@@ -67,7 +70,7 @@ export function RecordDeleteDialog({
             {isDeleting ? (
               <LoaderCircleIcon className="animate-spin" />
             ) : (
-              <Trash2Icon />
+              icon
             )}
             {confirmLabel}
           </AlertDialogAction>
